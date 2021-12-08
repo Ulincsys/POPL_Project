@@ -10,8 +10,8 @@ parse
 
 /* ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence */
 expression
-    : lhs=expression op=('+'|'-') rhs=expression #addExpression
-    | lhs=expression op=('*'|'/') rhs=expression #mulExpression
+    : lhs=expression op=('*'|'/') rhs=expression #mulExpression
+    | lhs=expression op=('+'|'-') rhs=expression #addExpression
     | '(' e=expression ')'                       #parenExpression
     | a=atom                                     #atomExpression
     ;
