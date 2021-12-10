@@ -29,7 +29,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>hello.HelloWorld</mainClass>
+                                    <mainClass>parser.Main</mainClass>
                                 </transformer>
                             </transformers>
                             <filters> <!-- https://stackoverflow.com/questions/64110058/maven-shade-plugin-how-resolve-the-warning-message-define-1-overlapping-resour -->

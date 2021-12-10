@@ -1,4 +1,8 @@
-grammar Indent;
+grammar Python3;
+
+@header {
+    package parser;
+}
 
 tokens { INDENT, DEDENT }
 
@@ -10,11 +14,6 @@ tokens { INDENT, DEDENT }
 
     private Token bufferedToken = null;
 
-/*    @Override
-    public void emit(Token t) {
-        super.setToken(t);
-        tokens.offer(t); // push_front
-    }*/
     /* look at https://github.com/antlr/antlr4/blob/master/runtime/Java/src/org/antlr/v4/runtime/Lexer.java */
     @Override
     public Token nextToken() {
@@ -40,7 +39,7 @@ tokens { INDENT, DEDENT }
                     indents.push(current_indent);
 //                    current_indent = 0;
                     bufferedToken = t;
-                    return new CommonToken(IndentParser.INDENT, "<INDENT>");
+                    return new CommonToken(Python3Parser.INDENT, "<INDENT>");
                 } else {
                     System.out.println("This token is the same indent level");
                 }
@@ -51,12 +50,12 @@ tokens { INDENT, DEDENT }
                     indents.push(current_indent);
 //                    current_indent = 0;
                     bufferedToken = t;
-                    return new CommonToken(IndentParser.INDENT, "<INDENT>");
+                    return new CommonToken(Python3Parser.INDENT, "<INDENT>");
                 } else if (current_indent < previous_indent) {
                     System.out.println("This token is less indented");
                     indents.pop();
                     bufferedToken = t;
-                    return new CommonToken(IndentParser.DEDENT, "<DEDENT>");
+                    return new CommonToken(Python3Parser.DEDENT, "<DEDENT>");
                 } else {
                     System.out.println("This token is the same indent level");
                 }
@@ -76,7 +75,7 @@ tokens { INDENT, DEDENT }
         } else if (_input.LA(1) == EOF) {
             // We reached EOF, but need to dedent
             indents.pop();
-            emit(new CommonToken(IndentParser.DEDENT, "aaaaaa"));
+            emit(new CommonToken(Python3Parser.DEDENT, "aaaaaa"));
         } else {
             // We are not at EOF
             // TODO
@@ -85,11 +84,6 @@ tokens { INDENT, DEDENT }
     }
 
 }            
-    
-
-@header {
-    package hello;
-}
 
 parse
     : statement
