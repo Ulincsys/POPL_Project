@@ -1,4 +1,8 @@
-grammar Indent;
+grammar Python3;
+
+@header {
+    package parser;
+}
 
 tokens { INDENT, DEDENT }
 
@@ -10,16 +14,11 @@ tokens { INDENT, DEDENT }
 
     private Token bufferedToken = null;
 
-/*    @Override
-    public void emit(Token t) {
-        super.setToken(t);
-        tokens.offer(t); // push_front
-    }*/
     /* look at https://github.com/antlr/antlr4/blob/master/runtime/Java/src/org/antlr/v4/runtime/Lexer.java */
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("  Actual token: " + t + "; " + indents);
+        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m");
         return t;
     }
     public Token nextTokenHelper() {
@@ -40,7 +39,7 @@ tokens { INDENT, DEDENT }
                     indents.push(current_indent);
 //                    current_indent = 0;
                     bufferedToken = t;
-                    return new CommonToken(IndentParser.INDENT, "<INDENT>");
+                    return new CommonToken(Python3Parser.INDENT, "<INDENT>");
                 } else {
                     System.out.println("This token is the same indent level");
                 }
@@ -51,12 +50,12 @@ tokens { INDENT, DEDENT }
                     indents.push(current_indent);
 //                    current_indent = 0;
                     bufferedToken = t;
-                    return new CommonToken(IndentParser.INDENT, "<INDENT>");
+                    return new CommonToken(Python3Parser.INDENT, "<INDENT>");
                 } else if (current_indent < previous_indent) {
                     System.out.println("This token is less indented");
                     indents.pop();
                     bufferedToken = t;
-                    return new CommonToken(IndentParser.DEDENT, "<DEDENT>");
+                    return new CommonToken(Python3Parser.DEDENT, "<DEDENT>");
                 } else {
                     System.out.println("This token is the same indent level");
                 }
@@ -76,7 +75,7 @@ tokens { INDENT, DEDENT }
         } else if (_input.LA(1) == EOF) {
             // We reached EOF, but need to dedent
             indents.pop();
-            emit(new CommonToken(IndentParser.DEDENT, "aaaaaa"));
+            emit(new CommonToken(Python3Parser.DEDENT, "aaaaaa"));
         } else {
             // We are not at EOF
             // TODO
@@ -85,26 +84,25 @@ tokens { INDENT, DEDENT }
     }
 
 }            
-    
-
-@header {
-    package hello;
-}
 
 parse
-    : statement
+    : statement* EOF
     ;
 
 statement
-    : 'stat' NL
-    | 'while' expression ':' (statement | NL block)
+    : NL                                            #emptyStatement
+    | 'todo' NL                                     #assignmentStatement
+    | 'while' expression ':' (statement | block)    #whileStatement
     ;
 
+/* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
+   there are blank lines between the previous line and the indented line */
 block
-    : INDENT statement+ DEDENT
+    : NL+ INDENT statement+ DEDENT
     ;
 
 /* ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence */
+/* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
     : lhs=expression op=('*'|'/') rhs=expression #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression #addExpression
