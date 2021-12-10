@@ -18,7 +18,7 @@ tokens { INDENT, DEDENT }
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("  Actual token: " + t + "; " + indents);
+        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m");
         return t;
     }
     public Token nextTokenHelper() {
@@ -86,19 +86,23 @@ tokens { INDENT, DEDENT }
 }            
 
 parse
-    : statement
+    : statement* EOF
     ;
 
 statement
-    : 'stat' NL
-    | 'while' expression ':' (statement | NL block)
+    : NL                                            #emptyStatement
+    | 'todo' NL                                     #assignmentStatement
+    | 'while' expression ':' (statement | block)    #whileStatement
     ;
 
+/* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
+   there are blank lines between the previous line and the indented line */
 block
-    : INDENT statement+ DEDENT
+    : NL+ INDENT statement+ DEDENT
     ;
 
 /* ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence */
+/* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
     : lhs=expression op=('*'|'/') rhs=expression #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression #addExpression
