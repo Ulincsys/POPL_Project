@@ -116,6 +116,7 @@ atom
     : INT  #intAtom
     ;
 
+// Python3 Lexical Analysis: https://docs.python.org/3/reference/lexical_analysis.html
 INT : [0-9]+;
 LPAREN : '(' { ++openedParens; };
 RPAREN : ')' { --openedParens; };
@@ -138,8 +139,8 @@ NL : [\n] {
 
 //Full Regex Reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
 //Identifiers based off python naming standard: https://docs.python.org/3/reference/lexical_analysis.html#identifiers
-ID : [a-z_][a-zA-Z0-9_]*; // \n? Are word boundaries necessary as well(\b)?
-//Number definition: 00002 shouldn't be allowed for example
-NUM : '0' | '-'?[1-9][0-9]*;
+ID : [a-zA-Z_][a-zA-Z0-9_]*; // Are word boundaries necessary as well(\b)?
+//Signed integer definition: 00002 shouldn't be allowed for example
+SINT : '0' | '-'?[1-9][0-9]*;
 //          ^sign. ? means match zero or one time.
 COMMENT : '#' ~[\r\n] -> skip;
