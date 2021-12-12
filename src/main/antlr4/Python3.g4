@@ -140,6 +140,6 @@ NL : [\n] {
 //Identifiers based off python naming standard: https://docs.python.org/3/reference/lexical_analysis.html#identifiers
 ID : [a-z_][a-zA-Z0-9_]*; // \n? Are word boundaries necessary as well(\b)?
 //Number definition: 00002 shouldn't be allowed for example
-NUM : '0' | '-'?[1-9]INT;
+NUM : '0' | '-'?[1-9][0-9]*;
 //          ^sign. ? means match zero or one time.
 COMMENT : '#' ~[\r\n] -> skip;
