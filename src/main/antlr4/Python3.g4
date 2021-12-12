@@ -111,6 +111,7 @@ expression
     | a=atom                                     #atomExpression
     ;
 
+// Python3 Atom definitions: https://docs.python.org/3/reference/expressions.html#atoms
 atom
     : INT  #intAtom
     ;
@@ -134,3 +135,6 @@ SPACE : [ \t] {
 NL : [\n] {
     if (openedParens > 0) skip();
 };
+
+//Identifiers based off python naming standard: https://docs.python.org/3/reference/lexical_analysis.html#identifiers
+ID : [a-z_][a-zA-Z0-9_]*;
