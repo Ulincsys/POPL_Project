@@ -13,10 +13,25 @@ After installation, we can now run the ANTLR parsing tool! Grammar files have th
 
 ## Project Requirements
 
+- [ ] if/else blocks
+- [ ] Variable definitions
+- [ ] while & for loops
+- [ ] Arithmetic operators (+, -, *, /, %, ^)
+- [ ] Assignment operators (=, +=, -=, *=, /=, ^=, %=)
+- [ ] Conditional statements (<, <=, >, >=, ==, !=, and, or, not)
+- [x] Support for comments
+  - `Python3.g4` line 146
+
 ## Bonus
+
+- [ ] Syntax error message
+- [ ] Visualization of parse tree (Graphviz)
 
 ## Resources
 
 [Java](https://www.java.com/en/)
 [ANTLR](https://www.antlr.org/)
 [ANTLR GitHub](https://github.com/antlr/antlr4)
+[Python3 Lexical Analysis](https://docs.python.org/3/reference/lexical_analysis.html)
+[Python3 Expressions](https://docs.python.org/3/reference/expressions.html)
+[Microsoft Regular Expressions](https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference)
