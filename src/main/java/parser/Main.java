@@ -26,7 +26,9 @@ public class Main {
         //Source: https://www.antlr.org/api/JavaTool/org/antlr/v4/gui/TestRig.html#TestRig(java.lang.String[])
         try{
             System.out.println("Loading visualizations...");
-            String grammarFileName = "Python3";
+//            System.out.println("currently in directory " + System.getProperty("user.dir"));
+            //We need to run TestRig/grun in the same directory as the compiled Lexer & Parser classes
+            String grammarFileName = "/classes/parser/Python3"; // /classes/parser/Python3.g4 ?
             String startRuleName = " r ";
             String flags = "-gui";
             String[] params = {grammarFileName, startRuleName, flags};
