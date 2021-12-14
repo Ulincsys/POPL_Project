@@ -10,3 +10,6 @@
 parser.iml
 
 target/*
+
+# Maven build script
+dependency-reduced-pom.xml

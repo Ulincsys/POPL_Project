@@ -11,6 +11,10 @@ The very first thing you will want to do is ensure you have [Java](https://www.j
 Following the [official ANTLR documentation](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md), start by installing ANTLR on your machine. The latest version as of writing this documentation is `4.9.3`.
 After installation, we can now run the ANTLR parsing tool! Grammar files have the extension `*.g4` and to give a general idea of the syntax/form of a grammar file, we included the `Hello.g4` grammar file provided in their documentation for testing. Just like it's stated in the "A First Example" portion of the documentation linked prior, you can run the ANTLR tool on a grammar file in the command line by typing `antlr4 Grammer.g4`. This will generate the lexer, parser, etc files. We now need to compile these Java files. You can call the Java compiler from the command line like so: `javac *.java`. Note that this will compile every `.java` file present in the directory.
 
+### Building w/ Maven
+
+First, ensure you have [Maven installed](https://maven.apache.org/install.html). Then run `mvn package` to install the dependencies and build the project. Then run `java -jar target/original-parser-0.1.0.jar`
+
 ## Project Requirements
 
 - [ ] if/else blocks
