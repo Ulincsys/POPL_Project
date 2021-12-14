@@ -92,10 +92,10 @@ parse
 statement
     : NL                                            #emptyStatement
     | 'while' expression ':' (statement | block)    #whileStatement
-    | IDENTIFIER '=' expression NL                  #assignmentStatement
     | expression NL                                 #expressionStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
-    | 'if' expression ':' (statement | block)                     #ifStatement
+    | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
+    | IDENTIFIER '=' expression NL                  #assignmentStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
