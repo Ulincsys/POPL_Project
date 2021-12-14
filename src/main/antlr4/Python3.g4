@@ -18,7 +18,7 @@ tokens { INDENT, DEDENT }
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m");
+        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m"); //]
         return t;
     }
     public Token nextTokenHelper() {
@@ -93,6 +93,7 @@ statement
     : NL                                            #emptyStatement
     | 'todo' NL                                     #assignmentStatement
     | 'while' expression ':' (statement | block)    #whileStatement
+    | IDENTIFIER '=' expression                     #assignmentStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
@@ -106,7 +107,7 @@ block
 expression
     : lhs=expression op=('*'|'/') rhs=expression #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression #addExpression
-    | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression #comparisonExpression 
+    | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression #comparisonExpression
     | LBRACE (e1=expression (',' e2=expression)*)? RBRACE                 #setOrDictExpression
     | a=atom                                     #atomExpression
     ;
