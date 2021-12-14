@@ -83,7 +83,7 @@ tokens { INDENT, DEDENT }
         }*/
     }
 
-}            
+}
 
 parse
     : statement* EOF
@@ -114,12 +114,15 @@ expression
 // Python3 Atom definitions: https://docs.python.org/3/reference/expressions.html#atoms
 atom
     : INT  #intAtom
+    | STRING #stringAtom
+    | IDENTIFIER #identifierAtom
+    | LPAREN e=expression RPAREN #parenAtom
     ;
 
-//Full Regex Reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
-//Python3 Lexical Analysis: https://docs.python.org/3/reference/lexical_analysis.html
+// Python3 Lexical Analysis: https://docs.python.org/3/reference/lexical_analysis.html
 INT : '0' | [1-9][0-9]*; //Integer
-ID : [a-zA-Z_][a-zA-Z0-9_]*;
+STRING : '"' ~["]* '"';
+IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]*;
 LPAREN : '(' { ++openedParens; };
 RPAREN : ')' { --openedParens; };
 LBRACKET : '[' { ++openedParens; };
