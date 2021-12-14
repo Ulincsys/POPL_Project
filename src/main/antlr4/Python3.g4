@@ -144,7 +144,7 @@ SPACE : [ \t] {
     }
 };
 
-NL : [\n] {
+NL : [\r]?[\n] {
     if (openedParens > 0) skip();
 };
 
