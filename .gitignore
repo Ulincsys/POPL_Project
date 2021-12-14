@@ -10,3 +10,4 @@
 parser.iml
 
 target/*
+dependency-reduced-pom.xml
