@@ -93,9 +93,9 @@ statement
     : NL                                            #emptyStatement
     | 'while' expression ':' (statement | block)    #whileStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
-    | 'if' expression ':' (statement | block)                     #ifStatement
     | 'break'                                                     #breakStatement
     | expression NL                                 #expressionStatement
+    | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
     | IDENTIFIER '=' expression NL                  #assignmentStatement
     ;
 
