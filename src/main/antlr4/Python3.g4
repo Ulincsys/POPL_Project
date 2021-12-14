@@ -95,6 +95,7 @@ statement
     | IDENTIFIER '=' expression NL                  #assignmentStatement
     | expression NL                                 #expressionStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
+    | 'if' expression ':' (statement | block)                     #ifStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
