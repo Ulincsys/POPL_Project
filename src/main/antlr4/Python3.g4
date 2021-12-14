@@ -92,8 +92,9 @@ parse
 statement
     : NL                                            #emptyStatement
     | 'while' expression ':' (statement | block)    #whileStatement
-    | expression NL                                 #expressionStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
+    | 'break'                                                     #breakStatement
+    | expression NL                                 #expressionStatement
     | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
     | IDENTIFIER '=' expression NL                  #assignmentStatement
     ;
@@ -108,11 +109,13 @@ block
 /* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
     : IDENTIFIER LPAREN ((expression',')* expression)? RPAREN           #functionCallExpression
+    | op='-' rhs=expression                                             #negateExpression
     | lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression                        #addExpression
     | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression    #comparisonExpression
-    | lhs=expression op='and' rhs=expression                          #andExpression
-    | lhs=expression op='or' rhs=expression                           #orExpression
+    | op='not' rhs=expression                                           #notExpression
+    | lhs=expression op='and' rhs=expression                            #andExpression
+    | lhs=expression op='or' rhs=expression                             #orExpression
     | LBRACE (e1=expression (',' e2=expression)*)? RBRACE               #setOrDictExpression
     | a=atom                                     #atomExpression
     ;
