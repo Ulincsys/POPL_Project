@@ -33,7 +33,7 @@ tokens { INDENT, DEDENT }
         if (!seenNonSpace && t.getType() != NL) {
             System.out.println("First token of line");
             if (indents.empty()) {
-                System.out.println("We have not indented yet");
+                System.out.println("We have not indented whileyet");
                 if (current_indent > 0) {
                     System.out.println("This token is indented");
                     indents.push(current_indent);
@@ -93,6 +93,7 @@ statement
     : NL                                            #emptyStatement
     | 'todo' NL                                     #assignmentStatement
     | 'while' expression ':' (statement | block)    #whileStatement
+    | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
