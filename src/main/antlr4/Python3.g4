@@ -104,8 +104,8 @@ block
 /* ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence */
 /* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
-    : lhs=expression op=('*'|'/') rhs=expression #mulExpression
-    | lhs=expression op=('+'|'-') rhs=expression #addExpression
+    : lhs=expression op=('*'|'/') rhs=expression { System.out.println($lhs.text + " " +$op.text + " " +$rhs.text); } #mulExpression
+    | lhs=expression op=('+'|'-') rhs=expression { System.out.println($lhs.text + " " +$op.text + " " +$rhs.text); } #addExpression
     | LPAREN e=expression RPAREN                 #parenExpression
     | LBRACE (e1=expression (',' e2=expression)*)? RBRACE                 #setOrDictExpression
     | a=atom                                     #atomExpression
