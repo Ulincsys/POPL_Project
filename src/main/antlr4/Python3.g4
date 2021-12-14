@@ -106,7 +106,7 @@ block
 expression
     : lhs=expression op=('*'|'/') rhs=expression #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression #addExpression
-    | LPAREN e=expression RPAREN                 #parenExpression
+    | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression #comparisonExpression 
     | LBRACE (e1=expression (',' e2=expression)*)? RBRACE                 #setOrDictExpression
     | a=atom                                     #atomExpression
     ;
