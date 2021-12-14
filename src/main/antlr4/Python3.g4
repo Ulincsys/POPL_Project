@@ -96,7 +96,7 @@ statement
     | 'break'                                                     #breakStatement
     | expression NL                                 #expressionStatement
     | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
-    | IDENTIFIER '=' expression NL                  #assignmentStatement
+    | IDENTIFIER op=('='|'-='|'+='|'*='|'/='|'%=') expression NL  #assignmentStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
