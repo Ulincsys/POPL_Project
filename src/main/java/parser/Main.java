@@ -25,12 +25,13 @@ public class Main {
         //Visualizations: grun/TestRig included w/ antlr
         //Source: https://www.antlr.org/api/JavaTool/org/antlr/v4/gui/TestRig.html#TestRig(java.lang.String[])
         try{
+            System.out.println("Loading visualizations...");
             String grammarFileName = "Python3";
             String startRuleName = " r ";
             String flags = "-gui";
             String[] params = {grammarFileName, startRuleName, flags};
             TestRig viz = new TestRig(params); //Look into this
-
+            viz.process();
         }
         catch(Exception e) {
             System.out.println("Exception thrown for visualizations: " + e);
