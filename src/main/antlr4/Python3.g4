@@ -18,7 +18,7 @@ tokens { INDENT, DEDENT }
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m");
+        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m"); //]
         return t;
     }
     public Token nextTokenHelper() {
@@ -83,7 +83,7 @@ tokens { INDENT, DEDENT }
         }*/
     }
 
-}            
+}
 
 parse
     : statement* EOF
