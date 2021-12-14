@@ -91,9 +91,9 @@ parse
 
 statement
     : NL                                            #emptyStatement
-    | 'todo' NL                                     #assignmentStatement
     | 'while' expression ':' (statement | block)    #whileStatement
     | IDENTIFIER '=' expression NL                  #assignmentStatement
+    | expression NL                                 #expressionStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
@@ -105,11 +105,12 @@ block
 /* ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence */
 /* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
-    : lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
+    : IDENTIFIER LPAREN ((expression',')* expression)? RPAREN           #functionCallExpression
+    | lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression                        #addExpression
     | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression    #comparisonExpression
-    | lhs=expression op=('and') rhs=expression                          #andExpression
-    | lhs=expression op=('or') rhs=expression                           #orExpression
+    | lhs=expression op='and' rhs=expression                          #andExpression
+    | lhs=expression op='or' rhs=expression                           #orExpression
     | LBRACE (e1=expression (',' e2=expression)*)? RBRACE               #setOrDictExpression
     | a=atom                                     #atomExpression
     ;
