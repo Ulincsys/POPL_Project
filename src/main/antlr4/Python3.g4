@@ -18,7 +18,7 @@ tokens { INDENT, DEDENT }
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m");
+        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m"); //]
         return t;
     }
     public Token nextTokenHelper() {
@@ -33,7 +33,7 @@ tokens { INDENT, DEDENT }
         if (!seenNonSpace && t.getType() != NL) {
             System.out.println("First token of line");
             if (indents.empty()) {
-                System.out.println("We have not indented yet");
+                System.out.println("We have not indented whileyet");
                 if (current_indent > 0) {
                     System.out.println("This token is indented");
                     indents.push(current_indent);
@@ -91,8 +91,10 @@ parse
 
 statement
     : NL                                            #emptyStatement
-    | 'todo' NL                                     #assignmentStatement
     | 'while' expression ':' (statement | block)    #whileStatement
+    | IDENTIFIER '=' expression NL                  #assignmentStatement
+    | expression NL                                 #expressionStatement
+    | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
@@ -104,10 +106,13 @@ block
 /* ANTLR resolves ambiguities in favor of the alternative given first, implicitly allowing us to specify operator precedence */
 /* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
-    : lhs=expression op=('*'|'/') rhs=expression #mulExpression
-    | lhs=expression op=('+'|'-') rhs=expression #addExpression
-    | LPAREN e=expression RPAREN                 #parenExpression
-    | LBRACE (e1=expression (',' e2=expression)*)? RBRACE                 #setOrDictExpression
+    : IDENTIFIER LPAREN ((expression',')* expression)? RPAREN           #functionCallExpression
+    | lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
+    | lhs=expression op=('+'|'-') rhs=expression                        #addExpression
+    | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression    #comparisonExpression
+    | lhs=expression op='and' rhs=expression                          #andExpression
+    | lhs=expression op='or' rhs=expression                           #orExpression
+    | LBRACE (e1=expression (',' e2=expression)*)? RBRACE               #setOrDictExpression
     | a=atom                                     #atomExpression
     ;
 
@@ -142,5 +147,4 @@ NL : [\n] {
     if (openedParens > 0) skip();
 };
 
-//Comments (https://docs.python.org/3/reference/lexical_analysis.html#comments)
 COMMENT : '#' ~[\r\n]* -> skip;
