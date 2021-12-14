@@ -110,7 +110,7 @@ block
 expression
     : IDENTIFIER LPAREN ((expression',')* expression)? RPAREN           #functionCallExpression
     | op='-' rhs=expression                                             #negateExpression
-    | lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
+    | lhs=expression op=('*'|'/'|'%') rhs=expression                    #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression                        #addExpression
     | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression    #comparisonExpression
     | op='not' rhs=expression                                           #notExpression
