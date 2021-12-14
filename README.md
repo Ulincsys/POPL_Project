@@ -14,7 +14,8 @@ After installation, we can now run the ANTLR parsing tool! Grammar files have th
 ## Project Requirements
 
 - [ ] if/else blocks
-- [ ] Variable definitions
+- [x] Variable definitions
+  - `Python.g4` line 125
 - [ ] while & for loops
 - [ ] Arithmetic operators (+, -, *, /, %, ^)
 - [ ] Assignment operators (=, +=, -=, *=, /=, ^=, %=)
@@ -25,7 +26,7 @@ After installation, we can now run the ANTLR parsing tool! Grammar files have th
 ## Bonus
 
 - [ ] Syntax error message
-- [ ] Visualization of parse tree (Graphviz)
+- [ ] Visualization of parse tree (Graphviz or Grun?)
 
 ## Resources
 
