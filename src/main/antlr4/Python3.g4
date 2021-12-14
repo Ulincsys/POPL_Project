@@ -116,8 +116,10 @@ atom
     : INT  #intAtom
     ;
 
-// Python3 Lexical Analysis: https://docs.python.org/3/reference/lexical_analysis.html
-//INT : [0-9]+;
+//Full Regex Reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
+//Python3 Lexical Analysis: https://docs.python.org/3/reference/lexical_analysis.html
+INT : '0' | [1-9][0-9]*; //Integer
+ID : [a-zA-Z_][a-zA-Z0-9_]*;
 LPAREN : '(' { ++openedParens; };
 RPAREN : ')' { --openedParens; };
 LBRACKET : '[' { ++openedParens; };
@@ -137,14 +139,5 @@ NL : [\n] {
     if (openedParens > 0) skip();
 };
 
-//Full Regex Reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
-//Identifiers based off python naming standard: https://docs.python.org/3/reference/lexical_analysis.html#identifiers
-ID : [a-zA-Z_][a-zA-Z0-9_]*; // Are word boundaries necessary as well(\b)?
 //Comments (https://docs.python.org/3/reference/lexical_analysis.html#comments)
 COMMENT : '#' ~[\r\n]* -> skip;
-//Numeric Literals (https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals)
-// Octal, Hexidecimal, and Floating point numbers are not required from the test file so we won't add those for now.
-//SINT : '0' | '-'?[1-9][0-9]*; //Signed integer
-//          ^sign. ? means match zero or one time. See Microsoft RegEx reference for more
-// Okay turns out the above definition is not how Python does things: "Note that numeric literals do not include a sign; a phrase like -1 is actually an expression composed of the unary operator ‘-‘ and the literal 1."
-INT : '0' | [1-9][0-9]*; //Integer
