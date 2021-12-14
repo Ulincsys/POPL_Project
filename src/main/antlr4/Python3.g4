@@ -18,7 +18,7 @@ tokens { INDENT, DEDENT }
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m");
+        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m"); //]
         return t;
     }
     public Token nextTokenHelper() {
@@ -33,7 +33,7 @@ tokens { INDENT, DEDENT }
         if (!seenNonSpace && t.getType() != NL) {
             System.out.println("First token of line");
             if (indents.empty()) {
-                System.out.println("We have not indented yet");
+                System.out.println("We have not indented whileyet");
                 if (current_indent > 0) {
                     System.out.println("This token is indented");
                     indents.push(current_indent);
@@ -93,6 +93,7 @@ statement
     : NL                                            #emptyStatement
     | 'todo' NL                                     #assignmentStatement
     | 'while' expression ':' (statement | block)    #whileStatement
+    | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
@@ -138,9 +139,21 @@ SPACE : [ \t] {
     }
 };
 
-NL : [\n] {
+NL : [\n] {        }*/
+    }
+
+}
+}
+
+parse
+    : statement* EOF
     if (openedParens > 0) skip();
 };
 
-//Comments (https://docs.python.org/3/reference/lexical_analysis.html#comments)
-COMMENT : '#' ~[\r\n]* -> skip;
+//Full Regex Reference: https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference
+//Identifiers based off python naming standard: https://docs.python.org/3/reference/lexical_analysis.html#identifiers
+ID : [a-zA-Z_][a-zA-Z0-9_]*; // Are word boundaries necessary as well(\b)?
+//Signed integer definition: 00002 shouldn't be allowed for example
+SINT : '0' | '-'?[1-9][0-9]*;
+//          ^sign. ? means match zero or one time.
+COMMENT : '#' ~[\r\n] -> skip;
