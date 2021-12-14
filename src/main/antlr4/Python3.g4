@@ -143,4 +143,4 @@ ID : [a-zA-Z_][a-zA-Z0-9_]*; // Are word boundaries necessary as well(\b)?
 //Signed integer definition: 00002 shouldn't be allowed for example
 SINT : '0' | '-'?[1-9][0-9]*;
 //          ^sign. ? means match zero or one time.
-COMMENT : '#' ~[\r\n] -> skip;
+COMMENT : '#' ~[\r\n]* -> skip;
