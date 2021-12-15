@@ -93,10 +93,10 @@ statement
     : NL                                            #emptyStatement
     | 'while' expression ':' (statement | block)    #whileStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
-    | 'if' expression ':' (statement | block)                     #ifStatement
     | 'break'                                                     #breakStatement
     | expression NL                                 #expressionStatement
-    | IDENTIFIER '=' expression NL                  #assignmentStatement
+    | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
+    | IDENTIFIER op=('='|'-='|'+='|'*='|'/='|'%=') expression NL  #assignmentStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
@@ -110,7 +110,7 @@ block
 expression
     : IDENTIFIER LPAREN ((expression',')* expression)? RPAREN           #functionCallExpression
     | op='-' rhs=expression                                             #negateExpression
-    | lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
+    | lhs=expression op=('*'|'/'|'%') rhs=expression                    #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression                        #addExpression
     | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression    #comparisonExpression
     | op='not' rhs=expression                                           #notExpression
