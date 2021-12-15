@@ -18,11 +18,11 @@ After installation, we can now run the ANTLR parsing tool! Grammar files have th
 
 ### Building
 
-First, ensure you have [Maven installed](https://maven.apache.org/install.html).
+First, ensure you have [Maven installed](https://maven.apache.org/install.html). Also ensure [GraphViz](https://graphviz.org/) is installed.
 
 ###### Make File
 
-To compile the project run `make`, this will clean and build the project in maven. After you must run the jar file using
+To compile the project run `make`, this will clean and build the project in maven. `make test` will build and run the program with the test python code provided in the assignment.
 
 ###### Maven
 
