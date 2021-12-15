@@ -1,6 +1,8 @@
 package parser;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Queue;
 import java.util.ArrayDeque;
@@ -9,19 +11,14 @@ public class GraphNode {
     private String label;
     private List<GraphNode> children;
 
+    GraphNode(String label, GraphNode... children) {
+        this.children = Arrays.stream(children).filter(Objects::nonNull).collect(Collectors.toList());
+        this.label = label;
+    }
+
     GraphNode(String label, List<GraphNode> children) {
-        this.children = children;
+        this.children = children.stream().filter(Objects::nonNull).collect(Collectors.toList());
         this.label = label;
-    }
-
-    GraphNode(String label, GraphNode child) {
-        this.label = label;
-        this.children = Arrays.asList(child);
-    }
-
-    GraphNode(String label) {
-        this.label = label;
-        this.children = Arrays.asList();
     }
 
     private class QueueElement {

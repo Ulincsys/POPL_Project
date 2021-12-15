@@ -20,19 +20,16 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
     public GraphNode visitParse(Python3Parser.ParseContext ctx) {
         List<GraphNode> children = new ArrayList<>();
         for (Python3Parser.StatementContext child : ctx.statement()) {
-            if (child instanceof Python3Parser.EmptyStatementContext) {
-                // ignore empty statements
-            } else {
-                GraphNode node = child.accept(this);
-                System.out.println(child + " " + child.getClass() + " " + node);
-                children.add(node);
-            }
+            GraphNode node = child.accept(this);
+            System.out.println(child + " " + child.getClass() + " " + node);
+            children.add(node);
         }
         return new GraphNode("root", children);
     }
 	@Override
     public GraphNode visitEmptyStatement(Python3Parser.EmptyStatementContext ctx) {
-        return new GraphNode("emptyStatement");
+        // ignore empty statements
+        return null;
     }
 	@Override
     public GraphNode visitWhileStatement(Python3Parser.WhileStatementContext ctx) {
@@ -41,10 +38,8 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
         
         return new GraphNode(
             "while loop",
-            Arrays.asList(
-                new GraphNode("condition", ctx.expression().accept(this)),
-                new GraphNode("body", body.accept(this))
-            )
+            new GraphNode("condition", ctx.expression().accept(this)),
+            new GraphNode("body", body.accept(this))
         );
     }
 	@Override
@@ -54,11 +49,9 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
         
         return new GraphNode(
             "while loop",
-            Arrays.asList(
-                new GraphNode("target", ctx.IDENTIFIER().accept(this)),
-                new GraphNode("iterable", ctx.expression().accept(this)),
-                new GraphNode("body", body.accept(this))
-            )
+            new GraphNode("target", ctx.IDENTIFIER().accept(this)),
+            new GraphNode("iterable", ctx.expression().accept(this)),
+            new GraphNode("body", body.accept(this))
         );
     }
 	@Override
@@ -84,10 +77,8 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
         
         children.add(new GraphNode(
             "'if' block",
-            Arrays.asList(
-                new GraphNode("condition", ctx.ifex.accept(this)),
-                new GraphNode("body", ifbody.accept(this))
-            )
+            new GraphNode("condition", ctx.ifex.accept(this)),
+            new GraphNode("body", ifbody.accept(this))
         ));
         ctx.elifStatement().forEach(elifctx -> children.add(elifctx.accept(this)));
         if (elsebody != null) {
@@ -109,21 +100,17 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
         
         return new GraphNode(
             "'elif' block",
-            Arrays.asList(
-                new GraphNode("condition", ctx.elifex.accept(this)),
-                new GraphNode("body", elifbody.accept(this))
-            )
+            new GraphNode("condition", ctx.elifex.accept(this)),
+            new GraphNode("body", elifbody.accept(this))
         );
     }
 	@Override
     public GraphNode visitAssignmentStatement(Python3Parser.AssignmentStatementContext ctx) {
         return new GraphNode(
             "assignmentStatement",
-            Arrays.asList(
-                ctx.IDENTIFIER().accept(this),
-                tokenHelper(ctx.op),
-                ctx.expression().accept(this)
-            )
+            ctx.IDENTIFIER().accept(this),
+            tokenHelper(ctx.op),
+            ctx.expression().accept(this)
         );
     }
 	@Override
@@ -137,33 +124,27 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
     public GraphNode visitOrExpression(Python3Parser.OrExpressionContext ctx) {
         return new GraphNode(
             "orExpression",
-            Arrays.asList(
-                ctx.lhs.accept(this),
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            ctx.lhs.accept(this),
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
     public GraphNode visitAndExpression(Python3Parser.AndExpressionContext ctx) {
         return new GraphNode(
             "andExpression",
-            Arrays.asList(
-                ctx.lhs.accept(this),
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            ctx.lhs.accept(this),
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
     public GraphNode visitAddExpression(Python3Parser.AddExpressionContext ctx) {
         return new GraphNode(
             "addExpression",
-            Arrays.asList(
-                ctx.lhs.accept(this),
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            ctx.lhs.accept(this),
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
@@ -176,61 +157,47 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
 	@Override
     public GraphNode visitFunctionCallExpression(Python3Parser.FunctionCallExpressionContext ctx) {
         List<GraphNode> arguments = new ArrayList<>();
-        GraphNode functionName = new GraphNode("function name", ctx.IDENTIFIER().accept(this));
         for (Python3Parser.ExpressionContext expression : ctx.expression()) {
             arguments.add(expression.accept(this));
         }
         return new GraphNode(
             "functionCallExpression",
-            Arrays.asList(
-                functionName,
-                new GraphNode(
-                    "arguments",
-                    arguments
-                )
-            )
+            new GraphNode("function name", ctx.IDENTIFIER().accept(this)),
+            new GraphNode("arguments", arguments)
         );
     }
 	@Override
     public GraphNode visitNotExpression(Python3Parser.NotExpressionContext ctx) {
         return new GraphNode(
             "notExpression",
-            Arrays.asList(
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
     public GraphNode visitComparisonExpression(Python3Parser.ComparisonExpressionContext ctx) {
         return new GraphNode(
             "comparisonExpression",
-            Arrays.asList(
-                ctx.lhs.accept(this),
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            ctx.lhs.accept(this),
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
     public GraphNode visitNegateExpression(Python3Parser.NegateExpressionContext ctx) {
         return new GraphNode(
             "negateExpression",
-            Arrays.asList(
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
     public GraphNode visitMulExpression(Python3Parser.MulExpressionContext ctx) {
         return new GraphNode(
             "mulExpression",
-            Arrays.asList(
-                ctx.lhs.accept(this),
-                tokenHelper(ctx.op),
-                ctx.rhs.accept(this)
-            )
+            ctx.lhs.accept(this),
+            tokenHelper(ctx.op),
+            ctx.rhs.accept(this)
         );
     }
 	@Override
@@ -258,11 +225,9 @@ public class GraphVisitor implements Python3Visitor<GraphNode> {
     public GraphNode visitParenAtom(Python3Parser.ParenAtomContext ctx) {
         return new GraphNode(
             "parenAtom",
-            Arrays.asList(
-                ctx.LPAREN().accept(this),
-                ctx.e.accept(this),
-                ctx.RPAREN().accept(this)
-            )
+            ctx.LPAREN().accept(this),
+            ctx.e.accept(this),
+            ctx.RPAREN().accept(this)
         );
     }
     
