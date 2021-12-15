@@ -14,7 +14,7 @@ import org.antlr.v4.gui.TestRig;
 public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        scanner.useDelimiter("\\Z");
+        scanner.useDelimiter("\\A"); // https://community.oracle.com/tech/developers/discussion/2608149/how-to-convert-input-stream-to-string
         // char[] buf = new char[1024];
         // int chars_read = 0;
         // InputStreamReader reader = new InputStreamReader(System.in);
