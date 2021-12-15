@@ -26,10 +26,14 @@ public class Main {
         Python3Lexer lexer = new Python3Lexer(CharStreams.fromString(input));
         Python3Parser parser = new Python3Parser(new CommonTokenStream(lexer));
         ParseTree tree = parser.parse();
+        GraphVisitor visitor = new GraphVisitor();
+        GraphNode result = visitor.visit(tree);
         System.out.println(tree.toString());
+        System.err.println(result.toGraphvizDot());
 
         //Visualizations: grun/TestRig included w/ antlr
         //Source: https://www.antlr.org/api/JavaTool/org/antlr/v4/gui/TestRig.html#TestRig(java.lang.String[])
+/*
         try{
             System.out.println("Loading visualizations...");
             String grammarFileName = "Python3";
@@ -42,5 +46,6 @@ public class Main {
         catch(Exception e) {
             System.out.println("Exception thrown for visualizations: " + e);
         }
+*/
     }
 }

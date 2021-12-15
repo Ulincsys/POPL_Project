@@ -18,7 +18,7 @@ tokens { INDENT, DEDENT }
     @Override
     public Token nextToken() {
         Token t = nextTokenHelper();
-        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m"); //]
+//        System.out.println("\u001b[32m  Actual token: " + t + "; " + indents + "\u001b[0m"); //]
         return t;
     }
     public Token nextTokenHelper() {
@@ -29,35 +29,35 @@ tokens { INDENT, DEDENT }
         } else {
             t = super.nextToken();
         }
-        System.out.println(t);
+//        System.out.println(t);
         if (!seenNonSpace && t.getType() != NL) {
-            System.out.println("First token of line");
+//            System.out.println("First token of line");
             if (indents.empty()) {
-                System.out.println("We have not indented whileyet");
+//                System.out.println("We have not indented whileyet");
                 if (current_indent > 0) {
-                    System.out.println("This token is indented");
+//                    System.out.println("This token is indented");
                     indents.push(current_indent);
 //                    current_indent = 0;
                     bufferedToken = t;
                     return new CommonToken(Python3Parser.INDENT, "<INDENT>");
                 } else {
-                    System.out.println("This token is the same indent level");
+//                    System.out.println("This token is the same indent level");
                 }
             } else {
                 int previous_indent = indents.peek();
                 if (current_indent > previous_indent) {
-                    System.out.println("This token is more indented");
+//                    System.out.println("This token is more indented");
                     indents.push(current_indent);
 //                    current_indent = 0;
                     bufferedToken = t;
                     return new CommonToken(Python3Parser.INDENT, "<INDENT>");
                 } else if (current_indent < previous_indent) {
-                    System.out.println("This token is less indented");
+//                    System.out.println("This token is less indented");
                     indents.pop();
                     bufferedToken = t;
                     return new CommonToken(Python3Parser.DEDENT, "<DEDENT>");
                 } else {
-                    System.out.println("This token is the same indent level");
+//                    System.out.println("This token is the same indent level");
                 }
             }
         }
@@ -93,11 +93,14 @@ statement
     : NL                                            #emptyStatement
     | 'while' expression ':' (statement | block)    #whileStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
-    | 'break'                                                     #breakStatement
+    | 'break' NL                                                  #breakStatement
     | expression NL                                 #expressionStatement
-    | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
+    | 'if' ifex=expression ':' (ifbodystat=statement | ifbodyblock=block) elifStatement* ('else' ':' (elsebodystat=statement | elsebodyblock=block))? /*{System.out.println("IF: ("+$ifex.text+")");}*/    #ifStatement
     | IDENTIFIER op=('='|'-='|'+='|'*='|'/='|'%=') expression NL  #assignmentStatement
     ;
+
+// Factored out from if statement because ANTLR visitor could only see the context of one elif block
+elifStatement: 'elif' elifex=expression ':' (bodystat=statement | bodyblock=block);
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
    there are blank lines between the previous line and the indented line */
@@ -116,7 +119,7 @@ expression
     | op='not' rhs=expression                                           #notExpression
     | lhs=expression op='and' rhs=expression                            #andExpression
     | lhs=expression op='or' rhs=expression                             #orExpression
-    | LBRACE (e1=expression (',' e2=expression)*)? RBRACE               #setOrDictExpression
+//    | LBRACE (e1=expression (',' e2=expression)*)? RBRACE               #setOrDictExpression
     | a=atom                                     #atomExpression
     ;
 
