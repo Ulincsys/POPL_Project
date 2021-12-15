@@ -92,10 +92,11 @@ parse
 statement
     : NL                                            #emptyStatement
     | 'while' expression ':' (statement | block)    #whileStatement
-    | IDENTIFIER '=' expression NL                  #assignmentStatement
-    | expression NL                                 #expressionStatement
     | 'for' IDENTIFIER 'in' expression ':' (statement | block)    #forStatement
-    | 'if' expression ':' (statement | block)                     #ifStatement
+    | 'break'                                                     #breakStatement
+    | expression NL                                 #expressionStatement
+    | 'if' ifex=expression ':' (statement | block) ('elif' elifex=expression ':' (statement | block))* ('else' ':' (statement | block))? {System.out.println("IF: ("+$ifex.text+")");}    #ifStatement
+    | IDENTIFIER op=('='|'-='|'+='|'*='|'/='|'%=') expression NL  #assignmentStatement
     ;
 
 /* Allow NL+ at the beginning of block, because NL is always inserted before INDENT, and multiple may be inserted if
@@ -108,11 +109,13 @@ block
 /* Python3 operator precedence listed here: https://docs.python.org/3/reference/expressions.html#operator-precedence */
 expression
     : IDENTIFIER LPAREN ((expression',')* expression)? RPAREN           #functionCallExpression
-    | lhs=expression op=('*'|'/') rhs=expression                        #mulExpression
+    | op='-' rhs=expression                                             #negateExpression
+    | lhs=expression op=('*'|'/'|'%') rhs=expression                    #mulExpression
     | lhs=expression op=('+'|'-') rhs=expression                        #addExpression
     | lhs=expression op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression    #comparisonExpression
-    | lhs=expression op='and' rhs=expression                          #andExpression
-    | lhs=expression op='or' rhs=expression                           #orExpression
+    | op='not' rhs=expression                                           #notExpression
+    | lhs=expression op='and' rhs=expression                            #andExpression
+    | lhs=expression op='or' rhs=expression                             #orExpression
     | LBRACE (e1=expression (',' e2=expression)*)? RBRACE               #setOrDictExpression
     | a=atom                                     #atomExpression
     ;

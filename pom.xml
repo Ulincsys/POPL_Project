@@ -6,7 +6,7 @@
     <groupId>com.ulincsys</groupId>
     <artifactId>parser</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1_alpha</version>
+    <version>0.1.0_beta</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
