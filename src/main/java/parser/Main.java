@@ -46,15 +46,39 @@ public class Main {
 
         //Outputs:
         //Output tree string to file (src: https://www.geeksforgeeks.org/redirecting-system-out-println-output-to-a-file-in-java/)
-        PrintStream output = new PrintStream(new File("tree.txt"));
+        String textOutputFilename = "tree.dot";
+        String imageOutputFilename = "tree.png";
+        if(args.length == 2){
+            textOutputFilename = args[1];
+        }
+        else if(args.length == 3){
+            textOutputFilename = args[1];
+            imageOutputFilename = args[2];
+        }
+        PrintStream output = new PrintStream(new File(textOutputFilename));
         PrintStream console = System.out;
         System.setOut(output);
         System.out.println(result.toGraphvizDot());
         System.setOut(console);
         System.out.println(result.toGraphvizDot());
-        //Export Graphviz to SVG
-        //System.err.println(result.toGraphvizDot());
 
+        //Export Graphviz to SVG
+        String[] command = {"dot", " -Tpng ", textOutputFilename};
+        try{
+            System.out.println("Running subprocess " + command[0] + command[1] + command[2]);
+            Process exec = Runtime.getRuntime().exec(command);
+            int exitVal = exec.waitFor();
+            if(exitVal == 0){
+                System.out.println("succ");
+                //System.exit(0);
+            }
+            else{
+                System.out.println("sus");
+            }
+        }
+        catch(Exception e){
+            System.out.println("Exception occurred: " + e);
+        }
 
         //Visualizations: grun/TestRig included w/ antlr
         //Source: https://www.antlr.org/api/JavaTool/org/antlr/v4/gui/TestRig.html#TestRig(java.lang.String[])
