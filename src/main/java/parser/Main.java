@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.gui.TestRig;
+import parser.Python3Parser;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -28,11 +29,12 @@ public class Main {
             System.out.println("Loading visualizations...");
 //            System.out.println("currently in directory " + System.getProperty("user.dir"));
             //We need to run TestRig/grun in the same directory as the compiled Lexer & Parser classes
-            String grammarFileName = "/classes/parser/Python3"; // /classes/parser/Python3.g4 ?
+            String grammarFileName = "Python3";
             String startRuleName = " r ";
             String flags = "-gui";
             String[] params = {grammarFileName, startRuleName, flags};
             TestRig viz = new TestRig(params); //Look into this
+            //viz.process(lexer, Python3Parser.class, parser, CharStreams.fromString(new String(buf, 0, chars_read)));
             viz.process();
         }
         catch(Exception e) {
