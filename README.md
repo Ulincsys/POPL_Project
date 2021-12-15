@@ -18,7 +18,7 @@ After installation, we can now run the ANTLR parsing tool! Grammar files have th
 
 ### Building
 
-First, ensure you have [Maven installed](https://maven.apache.org/install.html). Also ensure [GraphViz](https://graphviz.org/) is installed.
+First, ensure you have [Maven](https://maven.apache.org/install.html), and [GraphViz](https://graphviz.org/) installed.
 
 ###### Make File
 
