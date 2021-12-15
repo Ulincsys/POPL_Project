@@ -3,6 +3,8 @@ import java.nio.CharBuffer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import java.util.Scanner;
 
@@ -14,7 +16,18 @@ import parser.Python3Parser;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner;
+        if (args.length > 0) {
+            File file = new File(args[0]);
+            try {
+                scanner = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return;
+            }
+        } else {
+            scanner = new Scanner(System.in);
+        }
         scanner.useDelimiter("\\A"); // https://community.oracle.com/tech/developers/discussion/2608149/how-to-convert-input-stream-to-string
         // char[] buf = new char[1024];
         // int chars_read = 0;
