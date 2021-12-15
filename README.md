@@ -4,7 +4,7 @@ Sean Brennan, John McGinness, Zachary Sample, James Tompkins
 
 ## Getting Started
 
-Our project is a parser designed to parse Python3 syntax. It does not cover all parts of Python3's lexical analysis, just the parts required for the project that are in the `python_test_code.py` test code provided (so no floats, etc). 
+Our project is a parser designed to parse Python3 syntax. It does not cover all parts of Python3's lexical analysis, just the parts required for the project that are in the `python_test_code.py` test code provided (so no floats, etc).
 
 ### Java
 
@@ -12,12 +12,29 @@ The very first thing you will want to do is ensure you have [Java](https://www.j
 
 ### ANTLR Installation & How to Use
 
-Following the [official ANTLR documentation](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md), start by installing ANTLR on your machine. The latest version as of writing this documentation is `4.9.3`.
+Following the [official ANTLR documentation](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md), start by installing ANTLR on your machine. The latest version as of writing this documentation is `4.9.2`.
 After installation, we can now run the ANTLR parsing tool! Grammar files have the extension `*.g4` and to give a general idea of the syntax/form of a grammar file, we included the `Hello.g4` grammar file provided in their documentation for testing. Just like it's stated in the "A First Example" portion of the documentation linked prior, you can run the ANTLR tool on a grammar file in the command line by typing `antlr4 Grammer.g4`. This will generate the lexer, parser, etc files. We now need to compile these Java files. You can call the Java compiler from the command line like so: `javac *.java`. Note that this will compile every `.java` file present in the directory.
 
-### Building w/ Maven
 
-First, ensure you have [Maven installed](https://maven.apache.org/install.html). Then to manually compile everything, run `maven clean`, `mvn package` to install the dependencies and build the project, then `java -jar target/parser*.jar`. Or if you want to do it the easy way, John wrote a `makefile` and you can just run `make run` in the root directory to do this all automatically instead. Note: on Windows you need to make sure it's properly installed first.
+### Building
+
+First, ensure you have [Maven](https://maven.apache.org/install.html), and [GraphViz](https://graphviz.org/) installed.
+
+###### Make File
+
+To compile the project run `make`, this will clean and build the project in maven. `make test` will build and run the program with the test python code provided in the assignment.
+
+###### Maven
+
+To manually compile everything, run `maven clean`, `mvn package` to install the dependencies and build the project.
+
+### Running
+
+Run `java -jar target/parser-VERSION.jar inFile.py outFile.dot outImage.png` to run the project. The version number is printed during the build process.
+
+The optional first argument specifies a python file to parse. If a second argument is provided, the output will be printed to the given file. The file does not have to exist. A Third argument will specify the path to the output tree image.
+
+If no arguments are provided you can pass code via stdin. End the input using `ctrl+d`. The default output file if not specified is `tree.dot`. The default image output is `tree.png`.
 
 ## Project Requirements (Grammar File `Python3.g4`)
 
