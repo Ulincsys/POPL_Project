@@ -17,13 +17,13 @@ First, ensure you have [Maven installed](https://maven.apache.org/install.html).
 
 ## Project Requirements
 
-- [ ] if/else blocks
+- [x] if/else blocks
 - [x] Variable definitions
   - `Python.g4` line 125
-- [ ] while & for loops
-- [ ] Arithmetic operators (+, -, *, /, %, ^)
-- [ ] Assignment operators (=, +=, -=, *=, /=, ^=, %=)
-- [ ] Conditional statements (<, <=, >, >=, ==, !=, and, or, not)
+- [x] while & for loops
+- [x] Arithmetic operators (+, -, *, /, %, ^)
+- [x] Assignment operators (=, +=, -=, *=, /=, ^=, %=)
+- [x] Conditional statements (<, <=, >, >=, ==, !=, and, or, not)
 - [x] Support for comments
   - `Python3.g4` line 146
 
