@@ -63,16 +63,15 @@ public class Main {
         System.out.println(result.toGraphvizDot());
 
         //Export Graphviz to SVG
-        String[] command = {"dot", " -Tpng ", textOutputFilename};
+        String[] command = {"dot", "-Tpng", textOutputFilename};
         try{
             System.out.println("Running subprocess " + command[0] + command[1] + command[2]);
-            Process exec = Runtime.getRuntime().exec(command);
-            int exitVal = exec.waitFor();
-            if(exitVal == 0){
-                System.out.println("succ");
-                //System.exit(0);
+            ProcessBuilder pb = new ProcessBuilder(command);
+            pb.redirectOutput(new File(imageOutputFilename));
+            try{
+                pb.start().waitFor();
             }
-            else{
+            catch(Exception e){
                 System.out.println("sus");
             }
         }
