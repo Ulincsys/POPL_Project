@@ -65,7 +65,7 @@ After completing the "Getting Started" section, run `make run` in the terminal i
 
 ### Demo Video
 
-[![Demo Video](https://avatars0.githubusercontent.com/u/80584?s=280&v=4)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+[Demo Video](https://www.youtube.com/watch?v=ck20dfElW0E)
 
 ## Resources
 
