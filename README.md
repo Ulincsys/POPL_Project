@@ -50,8 +50,6 @@ After completing the "Getting Started" section, run `make run` in the terminal i
 
 [![Demo Video](https://avatars0.githubusercontent.com/u/80584?s=280&v=4)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 ## Resources
 
 [Java](https://www.java.com/en/)
