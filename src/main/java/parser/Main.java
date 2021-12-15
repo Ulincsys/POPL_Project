@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
 import java.util.Scanner;
 
@@ -42,8 +43,18 @@ public class Main {
         ParseTree tree = parser.parse();
         GraphVisitor visitor = new GraphVisitor();
         GraphNode result = visitor.visit(tree);
-        System.out.println(tree.toString());
-        System.err.println(result.toGraphvizDot());
+
+        //Outputs:
+        //Output tree string to file (src: https://www.geeksforgeeks.org/redirecting-system-out-println-output-to-a-file-in-java/)
+        PrintStream output = new PrintStream(new File("tree.txt"));
+        PrintStream console = System.out;
+        System.setOut(output);
+        System.out.println(result.toGraphvizDot());
+        System.setOut(console);
+        System.out.println(result.toGraphvizDot());
+        //Export Graphviz to SVG
+        //System.err.println(result.toGraphvizDot());
+
 
         //Visualizations: grun/TestRig included w/ antlr
         //Source: https://www.antlr.org/api/JavaTool/org/antlr/v4/gui/TestRig.html#TestRig(java.lang.String[])
