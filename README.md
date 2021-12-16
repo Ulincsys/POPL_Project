@@ -53,7 +53,7 @@ If no arguments are provided you can pass code via stdin. End the input using `c
 - [x] Support for comments
   - Line 154
 
-## Bonus (Java File `Main.java`)
+## Bonus
 
 - [ ] Syntax error message
 - [x] Visualization of parse tree (Graphviz)
